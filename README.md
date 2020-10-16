@@ -8,5 +8,3 @@ Traveldiary aims to allow users to document their travel in the from of a diary/
 5. Create, read, update and delete public reviews (public)
 
 [Trello board link](https://trello.com/b/CGY7wIhD)
-
-testing
