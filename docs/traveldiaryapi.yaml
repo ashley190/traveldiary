@@ -549,4 +549,10 @@ paths:
         description: "comment on review"
         required: false
         type: "string"
-  
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unable to update review"
+        "404":
+          description: "Review not found"
