@@ -1,0 +1,552 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Traveldiary"
+host: "traveldiary.io"
+tags:
+- name: "user"
+  description: "User related functions"
+- name: "blog"
+  description: "Blog functions"
+- name: "review"
+  description: "Review functions"
+schemes:
+- "https"
+- "http"
+paths:
+  /user/register:
+    post:
+      tags:
+      - "user"
+      summary: "User registration"
+      description: "This creates a new account for a new user."
+      operationId: "createUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User registration details"
+        required: true
+        schema:
+          $ref: "<path_to_object>"
+          # contains email, username, password
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Email/Username already exists"
+  /user/login:
+    get:
+      tags:
+      - "user"
+      summary: "Logs user into the system"
+      operationId: "loginUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "The user name for login"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "The password for login in clear text"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid username/password supplied"
+  /user/logout:
+    get:
+      tags:
+      - "user"
+      summary: "Logs out current logged in user session"
+      operationId: "logoutUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: []
+      responses:
+        default:
+          description: "successful operation"
+  /user/{username}/account:
+    put:
+      tags:
+      - "user"
+      summary: "Updates user password"
+      description: "This can only be done by the logged in user."
+      operationId: "updateUserPassword"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "username retrieved upon successful login"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated password"
+        required: true
+        schema: "<path_to_object>"
+        # password
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unable to update profile"
+        "404":
+          description: "User not found"
+    delete:
+      tags:
+      - "user"
+      summary: "Delete user account"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteUser"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "The user that needs to be deleted"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid username supplied"
+        "404":
+          description: "User not found"
+  /user/{username}/profile:
+    get:
+      tags:
+      - "user"
+      summary: "Get user profile by user name"
+      description: ""
+      operationId: "getUserByName"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "Fetched from username upon successful login."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid username supplied"
+        "404":
+          description: "User not found"
+    put:
+      tags:
+      - "user"
+      summary: "Updates user profile"
+      description: "This can only be done by the logged in user."
+      operationId: "updateUserProfile"      
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "username retrieved upon successful login"
+        required: true
+        type: "string"
+      - name: "name"
+        in: "formData"
+        description: "Profile name"
+        required: true
+        type: "string"
+      - name: "age"
+        in: "formData"
+        description: "User's age"
+        required: false
+        type: "integer"
+      - name: "from_location"
+        in: "formData"
+        description: "Location where user is from"
+        required: true
+        type: "string"
+      - name: "interests"
+        in: "formData"
+        description: "User's interests"
+        required: false
+        type: "string"
+      - name: "bio"
+        in: "formData"
+        description: "A little bit about the user"
+        required: false
+        type: "string"
+      - name: "profile_picture"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unable to update profile"
+        "404":
+          description: "User not found"
+  /user/{username}/new_blog_post:
+    post:
+      tags:
+      - "blog"
+      summary: "Create new blog post"
+      description: ""
+      operationId: "createBlogPost"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "Fetched upon successful login"
+        required: true
+        type: "string"
+      - name: "title"
+        in: "formData"
+        description: "post title"
+        required: true
+        type: "string"
+      - name: "date"
+        in: "formData"
+        description: "blog post date"
+        required: true
+        type: "number"
+      - name: "place(s)"
+        in: formData
+        description: "featured place(s) in blog post"
+        required: true
+        type: "string"
+      - name: "blog text"
+        in: "formData"
+        description: "blog text"
+        required: true
+        type: "string"
+      - name: "blog_photos"
+        in: "formData"
+        description: ""
+        required: true
+        type: "file"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unable to create blog post"
+  /user/{username}/blog/{blog_id}:
+    get:
+      tags:
+      - "blog"
+      summary: "View blog post by blog_id"
+      description: "Returns a single blog post"
+      operationId: "viewBlogPost"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "fetched upon successful login"
+        required: true
+        type: "string"
+      - name: "blog_id"
+        in: "path"
+        description: "fetched on selection of link to blog post"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid link"
+        "404":
+          description: "Blog post not found"
+    put:
+      tags:
+      - "blog"
+      summary: "Update blog post"
+      description: ""
+      operationId: "updateBlogPost"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "Fetched upon successful login"
+        required: true
+        type: "string"
+      - name: "blog_id"
+        in: "path"
+        description: "Fetched on selection to update post"
+        required: true
+        type: "integer"
+      - name: "title"
+        in: "formData"
+        description: "blog post title"
+        required: true
+        type: "string"
+      - name: "place(s)"
+        in: "formData"
+        description: "place(s) on which blog post is about"
+        required: false
+        type: "string"
+      - name: "blog text"
+        in: "formData"
+        description: "blog text body"
+        required: true
+        type: "string"
+      - name: "blog_photos"
+        in: "formData"
+        description: "photos to update"
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unable to update blog post"
+        "404":
+          description: "Blog post not found"
+    delete:
+      tags:
+      - "blog"
+      summary: "Delete blog post"
+      description: ""
+      operationId: "deleteBlogPost"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "User who created the blog post"
+        required: true
+        type: "string"
+      - name: "blog_id"
+        in: "path"
+        description: "The blog post to be deleted"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid blog_id"
+        "404":
+          description: "Blog post not found"
+  /review/new_review:
+    post:
+      tags:
+      - "review"
+      summary: "Create new review"
+      description: ""
+      operationId: "createNewReview"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "place"
+        in: "formData"
+        description: "place about which review is about"
+        required: true
+        type: "string"
+      - name: "date"
+        in: "formData"
+        description: "review date"
+        required: true
+        type: "number"
+      - name: "category"
+        in: "formData"
+        description: "category of place"
+        required: false
+        type: "string"
+      - name: "activity type"
+        in: "formData"
+        description: "type of activity"
+        required: false
+        type: "string"
+      - name: "rating"
+        in: "formData"
+        description: "place rating"
+        required: true
+        type: "integer"
+      - name: "description"
+        in: "formData"
+        description: "place description"
+        required: true
+        type: "string"
+      - name: "review_photo"
+        in: "formData"
+        description: ""
+        required: true
+        type: "file"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unable to create blog post"
+  /review/{review_id}:
+    get:
+      tags:
+      - "review"
+      summary: "View review"
+      description: ""
+      operationId: "viewReview"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "review_id"
+        in: "path"
+        description: "fetched on selection of link to review"
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid link"
+        "404":
+          description: "Blog post not found"
+    put:
+      tags:
+      - "review"
+      summary: "Update review"
+      description: ""
+      operationId: "updateReview"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "review_id"
+        in: "path"
+        description: "fetched on selection of link to review"
+        required: true
+        type: integer
+      - name: "place"
+        in: "formData"
+        description: "place about which review is about"
+        required: true
+        type: "string"
+      - name: "category"
+        in: "formData"
+        description: "category of place"
+        required: false
+        type: "string"
+      - name: "activity type"
+        in: "formData"
+        description: "type of activity"
+        required: false
+        type: "string"
+      - name: "rating"
+        in: "formData"
+        description: "place rating"
+        required: true
+        type: "integer"
+      - name: "description"
+        in: "formData"
+        description: "place description"
+        required: true
+        type: "string"
+      - name: "review_photo"
+        in: "formData"
+        description: ""
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unable to update review"
+        "404":
+          description: "Review not found"
+    delete:
+      tags:
+      - "review"
+      summary: "Delete review"
+      description: ""
+      operationId: deleteReview"
+      parameters:
+      - name: "review_id"
+        in: "path"
+        description: "Review to be deleted"
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid review_id"
+        "404":
+          description: "Review not found"
+  /review/{review_id}/like:
+    put:
+      tags:
+      - "review"
+      summary: "Like review"
+      description: "This can only be performed by users who are not the creator of the review"
+      operationId: "likeReview"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "review_id"
+        in: "path"
+        description: "link of review that is liked"
+        required: true
+        type: integer
+      - name: "like"
+        in: "query"
+        description: "add 1 vote to review"
+        required: false
+        type: integer
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unable to update review"
+        "404":
+          description: "Review not found"
+  /review/{review_id}/comment:
+    put:
+      tags:
+      - "review"
+      summary: "comment on review"
+      description: "This can only be performed by users who are not the creator of the review"
+      operationId: "commentOnReview"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "review_id"
+        in: "path"
+        description: "link of review that is liked"
+        required: true
+        type: integer
+      - name: "comment"
+        in: "formData"
+        description: "comment on review"
+        required: false
+        type: "string"
+  

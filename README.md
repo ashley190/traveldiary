@@ -37,6 +37,10 @@ Template for users to create a new review for a particular place that they have 
 Homepage lists all of the latest reviews from all other users of the platform in a card format that displays the feature photo at the front and flips to reveal further review info at the back. Users (other than the creator) are allowed to vote/like and comment on reviews. 
 ![homepage](docs/homepage.png)
 
+## Account Settings
+The Account settings page has controls to review, change and delete a user's account while the user is logged in.
+![account_settings](docs/accountsettings.png)
+
 # Installation
 In order to install this application:-
 1. Ensure you have Python3.8, python3.8-venv and python3-pip installed on your system.
@@ -47,3 +51,6 @@ In order to install this application:-
 # Database Design
 This is the database design for Traveldiary showing the relationship between 5 tables (User Account, User Profile, Photo, Review and Blog).
 ![Database Schema](docs/DB_Schema.png)
+
+# Viewing API documentation
+The traveldiary documentation has been documented in the OpenAPI convention and can be found in [api docs](docs/traveldiaryapi.yaml). This can be viewed by using an extension such as [swagger-viewer](https://chrome.google.com/webstore/detail/swagger-viewer/nfmkaonpdmaglhjjlggfhlndofdldfag/related?hl=en) on Google Chrome.
