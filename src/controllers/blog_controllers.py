@@ -11,6 +11,7 @@ def blog_post(id):
     blog = Blog.query.get(id)
     return jsonify(blog_schema.dump(blog))
 
+
 @blog.route("/", methods=["POST"])
 def blog_create():
     # Publish blog post
@@ -27,6 +28,7 @@ def blog_create():
 
     return jsonify(blog_schema.dump(new_blog))
 
+
 @blog.route("/<int:id>", methods=["PUT", "PATCH"])
 def blog_update(id):
     # Update blog post
@@ -36,6 +38,7 @@ def blog_update(id):
     db.session.commit()
 
     return jsonify(blog_schema.dump(blog[0]))
+
 
 @blog.route("/<int:id>", methods=["DELETE"])
 def blog_delete(id):
