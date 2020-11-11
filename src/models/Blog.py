@@ -1,5 +1,6 @@
 from main import db
 
+
 class Blog(db.Model):
     __tablename__ = "blog"
 
@@ -7,4 +8,4 @@ class Blog(db.Model):
     title = db.Column(db.String())
     date = db.Column(db.Date())
     location = db.Column(db.String())
-    blog = db.Blog(db.Text())
+    blog = db.Column(db.Text())

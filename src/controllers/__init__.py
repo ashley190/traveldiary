@@ -1,5 +1,6 @@
 from controllers.blog_controllers import blog
 
-registerable controllers = [
+
+registerable_controllers = [
     blog
 ]

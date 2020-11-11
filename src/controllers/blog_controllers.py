@@ -2,7 +2,7 @@ from models.Blog import Blog
 from main import db
 from schemas.BlogSchema import blog_schema
 from flask import Blueprint, request, jsonify
-blog = Blueprint('blog', __name__, url_prefix = "/blog")
+blog = Blueprint('blog', __name__, url_prefix="/blog")
 
 
 @blog.route("/<int:id>", methods=["GET"])
