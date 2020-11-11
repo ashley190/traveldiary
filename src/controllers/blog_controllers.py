@@ -1,5 +1,6 @@
 from models.Blog import Blog
 from main import db
+from schemas.BlogSchema import blog_schema
 from flask import Blueprint, request, jsonify
 blog = Blueprint('blog', __name__, url_prefix = "/blog")
 
@@ -7,8 +8,8 @@ blog = Blueprint('blog', __name__, url_prefix = "/blog")
 @blog.route("/<int:id>", methods=["GET"])
 def blog_post(id):
     # View single blog post
-    blog = Blog.query.all()
-    return jsonify(books)
+    blog = Blog.query.get(id)
+    return jsonify(blog_schema.dump(blog))
 
 # @blog.route("/", methods=["POST"])
 # def blog_create():
