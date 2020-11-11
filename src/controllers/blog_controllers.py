@@ -11,17 +11,37 @@ def blog_post(id):
     blog = Blog.query.get(id)
     return jsonify(blog_schema.dump(blog))
 
-# @blog.route("/", methods=["POST"])
-# def blog_create():
-#     # Publish blog post
-#     pass
+@blog.route("/", methods=["POST"])
+def blog_create():
+    # Publish blog post
+    blog_fields = blog_schema.load(request.form)
 
-# @blog.route("/<int:id>", methods=["PUT", "PATCH"])
-# def blog_update(id):
-#     # Update blog post
-#     pass
+    new_blog = Blog()
+    new_blog.title = blog_fields["title"]
+    new_blog.date = blog_fields["date"]
+    new_blog.location = blog_fields["location"]
+    new_blog.blog = blog_fields["blog"]
 
-# @blog.route("/<int:id>", methods=["DELETE"])
-# def blog_delete(id):
-#     # Delete blog post
-#     pass
+    db.session.add(new_blog)
+    db.session.commit()
+
+    return jsonify(blog_schema.dump(new_blog))
+
+@blog.route("/<int:id>", methods=["PUT", "PATCH"])
+def blog_update(id):
+    # Update blog post
+    blog = Blog.query.filter_by(blogid=id)
+    blog_fields = blog_schema.load(request.form)
+    blog.update(blog_fields)
+    db.session.commit()
+
+    return jsonify(blog_schema.dump(blog[0]))
+
+@blog.route("/<int:id>", methods=["DELETE"])
+def blog_delete(id):
+    # Delete blog post
+    blog = Blog.query.get(id)
+    db.session.delete(blog)
+    db.session.commit()
+
+    return jsonify(blog_schema.dump(blog))
