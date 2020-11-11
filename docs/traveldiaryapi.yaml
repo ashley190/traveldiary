@@ -200,7 +200,7 @@ paths:
           description: "Unable to update profile"
         "404":
           description: "User not found"
-  /user/{username}/new_blog_post:
+  /user/{username}/blog:
     post:
       tags:
       - "blog"

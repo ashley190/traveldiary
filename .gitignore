@@ -2,3 +2,5 @@ venv
 __pycache__
 .vscode
 .ds_store
+.mypy_cache
+.env

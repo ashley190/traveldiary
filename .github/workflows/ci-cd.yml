@@ -22,10 +22,10 @@ jobs:
         run: |
           cd src
           python -m unittest discover tests/
-      - name: Data Type Check
-        run: |
-          cd src
-          mypy . tests/
+      # - name: Data Type Check
+      #   run: |
+      #     cd src
+      #     mypy . tests/
       - name: Style Check
         run: |
           cd src
