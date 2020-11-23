@@ -29,4 +29,4 @@ jobs:
       - name: Style Check
         run: |
           cd src
-          flake8 . tests/
+          flake8 . tests/ controllers/ models/ schemas/

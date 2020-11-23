@@ -4,16 +4,19 @@ from schemas.ReviewSchema import review_schema, reviews_schema
 from flask import Blueprint, request, jsonify
 reviews = Blueprint("reviews", __name__, url_prefix="/reviews")
 
+
 @reviews.route("/", methods=["GET"])
 def all_reviews():
-    #View all reviews
+    # View all reviews
     reviews = Review.query.all()
     return jsonify(reviews_schema.dump(reviews))
+
 
 @reviews.route("/<int:id>", methods=["GET"])
 def review_show(id):
     review = Review.query.get(id)
     return jsonify(review_schema.dump(review))
+
 
 @reviews.route("/new_review", methods=["POST"])
 def new_review():
@@ -34,6 +37,7 @@ def new_review():
 
     return jsonify(review_schema.dump(new_review))
 
+
 @reviews.route("/<int:id>", methods=["PUT"])
 def review_update(id):
     # Update review
@@ -44,6 +48,7 @@ def review_update(id):
 
     return jsonify(review_schema.dump(review[0]))
 
+
 @reviews.route("/<int:id>", methods=["DELETE"])
 def delete_review(id):
     # Delete review
@@ -53,12 +58,14 @@ def delete_review(id):
 
     return jsonify(review_schema.dump(review))
 
-#Incomplete
+
+# Incomplete
 @reviews.route("/<int:id>/like", methods=["PATCH"])
 def like_review(id):
     return f"like review id:{id}"
 
-#Incomplete
+
+# Incomplete
 @reviews.route("/<int:id>/comment", methods=["PATCH"])
 def review_comment(id):
     return f"Comment on review id:{id}"

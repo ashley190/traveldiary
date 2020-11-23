@@ -8,20 +8,24 @@ class Config(object):
     @property
     def SQLALCHEMY_DATABASE_URI(self):
         value = os.environ.get("DB_URI")
-    
+
         if not value:
             raise ValueError("DB_URI is not set")
 
         return value
 
+
 class DevelopmentConfig(Config):
     DEBUG = True
+
 
 class ProductionConfig(Config):
     pass
 
+
 class TestingConfig(Config):
     TESTING = True
+
 
 environment = os.environ.get("FLASK_ENV")
 

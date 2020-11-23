@@ -4,15 +4,18 @@ from flask import Blueprint
 
 db_commands = Blueprint("db-custom", __name__)
 
+
 @db_commands.cli.command("create")
 def create_db():
     db.create_all()
     print("Tables created!")
 
+
 @db_commands.cli.command("drop")
 def drop_db():
     db.drop_all()
     print("Tables deleted!")
+
 
 @db_commands.cli.command("seed")
 def seed_db():
@@ -28,7 +31,7 @@ def seed_db():
         blog.location = f"{faker.city()}, {faker.country()}"
         blog.blog = faker.text()
         db.session.add(blog)
-    
+
     db.session.commit()
     print("Blog table seeded")
 
@@ -41,6 +44,6 @@ def seed_db():
         review.rating = faker.random_int(min=0, max=5)
         review.description = faker.text()
         db.session.add(review)
-    
+
     db.session.commit()
     print("Review table seeded")
