@@ -1,8 +1,14 @@
 from models.Blog import Blog
 from main import db
-from schemas.BlogSchema import blog_schema
+from schemas.BlogSchema import blog_schema, blogs_schema
 from flask import Blueprint, request, jsonify
 blog = Blueprint('blog', __name__, url_prefix="/blog")
+
+@blog.route("/", methods=["GET"])
+def blog_index():
+    # View all blog posts
+    blogs = Blog.query.all()
+    return jsonify(blogs_schema.dump(blogs))
 
 
 @blog.route("/<int:id>", methods=["GET"])

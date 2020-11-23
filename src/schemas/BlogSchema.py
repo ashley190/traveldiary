@@ -8,3 +8,4 @@ class BlogSchema(ma.SQLAlchemyAutoSchema):
 
 
 blog_schema = BlogSchema()
+blogs_schema = BlogSchema(many=True)
