@@ -3,6 +3,7 @@ load_dotenv()
 
 from flask import Flask  # noqa: E402
 app = Flask(__name__)
+app.config.from_object("default_settings.app_config")
 
 from database import init_db  # noqa: E402
 db = init_db(app)

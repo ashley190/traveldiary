@@ -53,12 +53,12 @@ def delete_review(id):
 
     return jsonify(review_schema.dump(review))
 
+#Incomplete
 @reviews.route("/<int:id>/like", methods=["PATCH"])
 def like_review(id):
-    review = Review.query.filter_by(reviewid=id)
+    return f"like review id:{id}"
 
-    return jsonify(review_schema.dump(review[0]))
-
+#Incomplete
 @reviews.route("/<int:id>/comment", methods=["PATCH"])
 def review_comment(id):
     return f"Comment on review id:{id}"
