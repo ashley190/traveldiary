@@ -11,6 +11,9 @@ db = init_db(app)
 from flask_marshmallow import Marshmallow  # noqa: E402
 ma = Marshmallow(app)
 
+from commands import db_commands
+app.register_blueprint(db_commands)
+
 from controllers import registerable_controllers  # noqa: E402
 for controller in registerable_controllers:
     app.register_blueprint(controller)
