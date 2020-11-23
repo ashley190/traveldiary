@@ -48,6 +48,9 @@ In order to install this application:-
 3. Navigate to the *traveldiary* folder, create and activate the python3.8 virtual environment.
 4. Install application dependencies within the activated Python3.8 virtual environment by running `pip install -r requirements.txt`.
 
+# Setup
+5. Create a .env file with the .env.example template within the src folder and populate the required fields within the .env file.
+
 # Database Design
 This is the database design for Traveldiary showing the relationship between 5 tables (User Account, User Profile, Photo, Review and Blog).
 ![Database Schema](docs/DB_Schema.png)

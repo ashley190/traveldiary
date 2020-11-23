@@ -2,23 +2,23 @@ from models.Blog import Blog
 from main import db
 from schemas.BlogSchema import blog_schema, blogs_schema
 from flask import Blueprint, request, jsonify
-blog = Blueprint('blog', __name__, url_prefix="/blog")
+blogs = Blueprint('blogs', __name__, url_prefix="/blogs")
 
-@blog.route("/", methods=["GET"])
+@blogs.route("/", methods=["GET"])
 def blog_index():
     # View all blog posts
     blogs = Blog.query.all()
     return jsonify(blogs_schema.dump(blogs))
 
 
-@blog.route("/<int:id>", methods=["GET"])
+@blogs.route("/<int:id>", methods=["GET"])
 def blog_post(id):
     # View single blog post
     blog = Blog.query.get(id)
     return jsonify(blog_schema.dump(blog))
 
 
-@blog.route("/", methods=["POST"])
+@blogs.route("/", methods=["POST"])
 def blog_create():
     # Publish blog post
     blog_fields = blog_schema.load(request.form)
@@ -35,7 +35,7 @@ def blog_create():
     return jsonify(blog_schema.dump(new_blog))
 
 
-@blog.route("/<int:id>", methods=["PUT", "PATCH"])
+@blogs.route("/<int:id>", methods=["PUT", "PATCH"])
 def blog_update(id):
     # Update blog post
     blog = Blog.query.filter_by(blogid=id)
@@ -46,7 +46,7 @@ def blog_update(id):
     return jsonify(blog_schema.dump(blog[0]))
 
 
-@blog.route("/<int:id>", methods=["DELETE"])
+@blogs.route("/<int:id>", methods=["DELETE"])
 def blog_delete(id):
     # Delete blog post
     blog = Blog.query.get(id)
