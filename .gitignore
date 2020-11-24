@@ -4,3 +4,4 @@ __pycache__
 .ds_store
 .mypy_cache
 .env
+:testdb:

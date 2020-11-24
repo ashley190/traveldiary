@@ -27,7 +27,7 @@ def seed_db():
     for i in range(10):
         blog = Blog()
         blog.title = faker.catch_phrase()
-        blog.date = faker.date()
+        blog.date = faker.date_object()
         blog.location = f"{faker.city()}, {faker.country()}"
         blog.blog = faker.text()
         db.session.add(blog)
@@ -38,7 +38,7 @@ def seed_db():
     for i in range(10):
         review = Review()
         review.location = f"{faker.city()}, {faker.country()}"
-        review.date = faker.date()
+        review.date = faker.date_object()
         review.category = faker.word()
         review.activity_type = faker.word()
         review.rating = faker.random_int(min=0, max=5)
