@@ -19,8 +19,9 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run Tests
+        env:
+          FLASK_ENV: testing
         run: |
-          export FLASK_ENV=testing
           cd src
           python -m unittest discover tests/
       # - name: Data Type Check
