@@ -1,18 +1,23 @@
 import os
 
 
+def get_from_env(var_name: str) -> str:
+    value = os.environ.get(var_name)
+
+    if not value:
+        raise ValueError(f"{var_name} is not set")
+
+    return value
+
+
 class Config(object):
     SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    JWT_SECRET_KEY = "secret"
 
     @property
     def SQLALCHEMY_DATABASE_URI(self):
-        value = os.environ.get("DB_URI")
-
-        if not value:
-            raise ValueError("DB_URI is not set")
-
-        return value
+        return get_from_env("DB_URI")
 
 
 class DevelopmentConfig(Config):
@@ -20,7 +25,9 @@ class DevelopmentConfig(Config):
 
 
 class ProductionConfig(Config):
-    pass
+    @property
+    def JWT_SECRET_KEY(self):
+        return get_from_env("JWT_SECRET_KEY")
 
 
 class TestingConfig(Config):

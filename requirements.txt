@@ -1,7 +1,11 @@
+bcrypt==3.2.0
+cffi==1.14.4
 click==7.1.2
 Faker==4.17.1
 flake8==3.8.4
 Flask==1.1.2
+Flask-Bcrypt==0.7.1
+Flask-JWT-Extended==3.25.0
 flask-marshmallow==0.14.0
 Flask-SQLAlchemy==2.4.4
 itsdangerous==1.1.0
@@ -14,7 +18,9 @@ mypy==0.790
 mypy-extensions==0.4.3
 psycopg2-binary==2.8.6
 pycodestyle==2.6.0
+pycparser==2.20
 pyflakes==2.2.0
+PyJWT==1.7.1
 python-dateutil==2.8.1
 python-dotenv==0.15.0
 six==1.15.0

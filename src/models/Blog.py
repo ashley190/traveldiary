@@ -9,3 +9,4 @@ class Blog(db.Model):
     date = db.Column(db.Date())
     location = db.Column(db.String())
     blog = db.Column(db.Text())
+    userid = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)

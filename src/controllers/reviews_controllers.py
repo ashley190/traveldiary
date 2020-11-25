@@ -1,7 +1,9 @@
 from models.Review import Review
+from models.User import User
 from main import db
 from schemas.ReviewSchema import review_schema, reviews_schema
-from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import Blueprint, request, jsonify, abort
 reviews = Blueprint("reviews", __name__, url_prefix="/reviews")
 
 
@@ -19,9 +21,16 @@ def review_show(id):
 
 
 @reviews.route("/new_review", methods=["POST"])
+@jwt_required
 def new_review():
     # Create review
     review_fields = review_schema.load(request.form)
+    user_id = get_jwt_identity()
+
+    user = User.query.get(user_id)
+
+    if not user:
+        return abort(401, description="Invalid user")
 
     new_review = Review()
     new_review.title = review_fields["title"]
@@ -33,13 +42,14 @@ def new_review():
     new_review.description = review_fields["description"]
     new_review.likes = 0
 
-    db.session.add(new_review)
+    user.reviews.append(new_review)
     db.session.commit()
 
     return jsonify(review_schema.dump(new_review))
 
 
 @reviews.route("/<int:id>", methods=["PUT"])
+@jwt_required
 def review_update(id):
     # Update review
     review = Review.query.filter_by(reviewid=id)
@@ -51,6 +61,7 @@ def review_update(id):
 
 
 @reviews.route("/<int:id>", methods=["DELETE"])
+@jwt_required
 def delete_review(id):
     # Delete review
     review = Review.query.get(id)

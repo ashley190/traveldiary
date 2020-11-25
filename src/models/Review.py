@@ -2,7 +2,7 @@ from main import db
 
 
 class Review(db.Model):
-    __tablename__ = "reviews"
+    __tablename__ = "review"
 
     reviewid = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String())
@@ -13,3 +13,4 @@ class Review(db.Model):
     rating = db.Column(db.Integer)
     description = db.Column(db.String())
     likes = db.Column(db.Integer)
+    userid = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
