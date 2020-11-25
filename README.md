@@ -49,7 +49,13 @@ In order to install this application:-
 4. Install application dependencies within the activated Python3.8 virtual environment by running `pip install -r requirements.txt`.
 
 # Setup
-5. Create a .env file with the .env.example template within the src folder and populate the required fields within the .env file.
+1. Create a .env file with the .env.example template within the src folder and populate the required fields within the .env file.
+
+# Custom Commands
+Here are some custom flask commands created to automate tasks related to database tables. It is recommended to run the above command in the following order to refresh the database tables for testing during the development phase.
+1. flask db-custom drop: drops all database tables defined in registered models. This drops all previously created tables
+2. flask db-custom create: creates database tables defined in registered models.
+3. flask db-custom seed: seeds database tables with dummy data using faker.
 
 # Database Design
 This is the database design for Traveldiary showing the relationship between 5 tables (User Account, User Profile, Photo, Review and Blog).

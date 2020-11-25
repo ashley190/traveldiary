@@ -22,58 +22,60 @@ class TestBlogs(unittest.TestCase):
         db.drop_all()
         cls.app_context.pop()
 
-    def test_blog_index(self):
-        response = self.client.get("/blogs/")
+    def test_all_reviews(self):
+        response = self.client.get("/reviews/")
         data = response.get_json()
 
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(data, list)
         self.assertTrue(len(data) == 10)
 
-    def test_blog_post(self):
-        response = self.client.get("/blogs/1")
+    def test_review_show(self):
+        response = self.client.get("/reviews/1")
         data = response.get_json()
 
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(data, dict)
-        self.assertTrue(len(data) == 5)
+        self.assertTrue(len(data) == 8)
 
-    def test_blog_create(self):
-        response = self.client.post("/blogs/", data={
-            "title": "TestBlog123",
-            "date": "2020-11-11",
-            "location": "Melbourne, Australia",
-            "blog": "Lorem ipsum dolor sit amet..."
+    def test_new_review(self):
+        response = self.client.post("/reviews/new_review", data={
+            "location": "Sydney, Australia",
+            "date": "2020-11-25",
+            "category": "Adventure",
+            "activity_type": "Bridge Climb",
+            "rating": "4",
+            "description": "Curabitur viverra cursus convallis..."
         })
         data = response.get_json()
 
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(data, dict)
-        self.assertTrue(data["title"] == "TestBlog123")
-        self.assertTrue(len(data) == 5)
-
-    def test_blog_update(self):
-        response = self.client.put("/blogs/1", data={
-            "title": "UpdatedBlog123",
-            "location": "Sydney, Australia"
-        })
-        data = response.get_json()
-
-        self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(data, dict)
-        self.assertTrue(data["title"] == "UpdatedBlog123")
         self.assertTrue(data["location"] == "Sydney, Australia")
+        self.assertTrue(len(data) == 8)
 
-    def test_blog_delete(self):
-        self.client.delete("/blogs/1")
-        self.client.delete("/blogs/2")
-        response = self.client.get("/blogs/")
-
+    def test_review_update(self):
+        response = self.client.put("/reviews/2", data={
+            "activity_type": "hiking",
+            "date": "2020-11-15"
+        })
         data = response.get_json()
-        blogids = []
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(data, dict)
+        self.assertTrue(data["activity_type"] == "hiking")
+        self.assertTrue(data["date"] == "2020-11-15")
+
+    def test_delete_review(self):
+        self.client.delete("/reviews/3")
+        self.client.delete("/reviews/4")
+        response = self.client.get("/reviews/")
+        data = response.get_json()
+
+        reviewids = []
         for entry in data:
-            blogids.append(entry["blogid"])
+            reviewids.append(entry["reviewid"])
 
         self.assertIsInstance(data, list)
         self.assertTrue(len(data) == 8)
-        self.assertNotIn([1, 2], blogids)
+        self.assertNotIn([3, 4], reviewids)

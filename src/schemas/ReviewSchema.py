@@ -9,12 +9,12 @@ class ReviewSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Review
 
-    location = ma.String(required=True, validate=Length(min=1))
-    date = ma.Date(required=True)
-    category = ma.String(required=True)
-    activity_type = ma.String(required=True)
-    rating = ma.Integer(required=True, validate=Range(max=5))
-    description = ma.String(required=True, validate=Length(min=1))
+    location = ma.String(validate=Length(min=1))
+    date = ma.Date()
+    category = ma.String()
+    activity_type = ma.String()
+    rating = ma.Integer(validate=Range(max=5))
+    description = ma.String(validate=Length(min=1))
     likes = ma.Integer()
 
     @validates("date")
