@@ -36,10 +36,11 @@ class TestBlogs(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(data, dict)
-        self.assertTrue(len(data) == 8)
+        self.assertTrue(len(data) == 9)
 
     def test_new_review(self):
         response = self.client.post("/reviews/new_review", data={
+            "title": "Review 11",
             "location": "Sydney, Australia",
             "date": "2020-11-25",
             "category": "Adventure",
@@ -52,7 +53,7 @@ class TestBlogs(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(data, dict)
         self.assertTrue(data["location"] == "Sydney, Australia")
-        self.assertTrue(len(data) == 8)
+        self.assertTrue(len(data) == 9)
 
     def test_review_update(self):
         response = self.client.put("/reviews/2", data={

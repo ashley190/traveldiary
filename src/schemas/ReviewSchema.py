@@ -9,6 +9,7 @@ class ReviewSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Review
 
+    title = ma.String(validate=Length(min=1))
     location = ma.String(validate=Length(min=1))
     date = ma.Date()
     category = ma.String()

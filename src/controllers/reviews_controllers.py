@@ -24,6 +24,7 @@ def new_review():
     review_fields = review_schema.load(request.form)
 
     new_review = Review()
+    new_review.title = review_fields["title"]
     new_review.location = review_fields["location"]
     new_review.date = review_fields["date"]
     new_review.category = review_fields["category"]

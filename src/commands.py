@@ -37,6 +37,7 @@ def seed_db():
 
     for i in range(10):
         review = Review()
+        review.title = faker.sentence()
         review.location = f"{faker.city()}, {faker.country()}"
         review.date = faker.date_object()
         review.category = faker.word()
