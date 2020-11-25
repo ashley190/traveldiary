@@ -3,6 +3,7 @@ from models.Review import Review
 from marshmallow.validate import Length, Range
 from marshmallow import validates, ValidationError
 from datetime import date
+from schemas.UserSchema import UserSchema
 
 
 class ReviewSchema(ma.SQLAlchemyAutoSchema):
@@ -17,6 +18,7 @@ class ReviewSchema(ma.SQLAlchemyAutoSchema):
     rating = ma.Integer(validate=Range(max=5))
     description = ma.String(validate=Length(min=1))
     likes = ma.Integer()
+    user = ma.Nested(UserSchema)    # doesn't work
 
     @validates("date")
     def not_future_date(*value):

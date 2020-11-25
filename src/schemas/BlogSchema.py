@@ -3,6 +3,7 @@ from models.Blog import Blog
 from marshmallow.validate import Length
 from marshmallow import validates, ValidationError
 from datetime import date
+from schemas.UserSchema import UserSchema
 
 
 class BlogSchema(ma.SQLAlchemyAutoSchema):
@@ -13,6 +14,7 @@ class BlogSchema(ma.SQLAlchemyAutoSchema):
     date = ma.Date()
     location = ma.String(validate=Length(min=1))
     blog = ma.String(validate=Length(min=1))
+    user = ma.Nested(UserSchema)    # doesn't work
 
     @validates("date")
     def not_future_date(*value):
