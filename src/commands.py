@@ -38,7 +38,7 @@ def seed_db():
 
     db.session.commit()
 
-    for i in range(10):
+    for i in range(30):
         blog = Blog()
         blog.title = faker.catch_phrase()
         blog.date = faker.date_object()
@@ -50,7 +50,7 @@ def seed_db():
     db.session.commit()
     print("Blog table seeded")
 
-    for i in range(10):
+    for i in range(30):
         review = Review()
         review.title = faker.sentence()
         review.location = f"{faker.city()}, {faker.country()}"

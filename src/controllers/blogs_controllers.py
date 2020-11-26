@@ -73,12 +73,12 @@ def blog_update(id):
 
     if not user:
         return abort(401, description="Invalid user")
-    
+
     blog = Blog.query.filter_by(blogid=id, userid=user.id)
 
     if blog.count() != 1:
         return abort(401, description="Unauthorised to update this blog")
-    
+
     blog.update(blog_fields)
     db.session.commit()
 
@@ -94,12 +94,12 @@ def blog_delete(id):
 
     if not user:
         return abort(401, description="Invalid user")
-    
+
     blog = Blog.query.filter_by(blogid=id, userid=user.id).first()
 
     if not blog:
         return abort(400, description="Unauthorised to delete blog")
-    
+
     db.session.delete(blog)
     db.session.commit()
 
