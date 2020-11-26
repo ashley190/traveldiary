@@ -42,50 +42,94 @@ class TestBlogs(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(data, list)
 
-    # def test_blog_post(self):
-    #     response = self.client.get("/blogs/1")
-    #     data = response.get_json()
+    def test_blog_post(self):
+        import random
+        test_1_blogs = self.client.get(
+            "/blogs/", headers=self.headers["test1"]).get_json()
+        test_2_blogs = self.client.get(
+            "/blogs/", headers=self.headers["test2"]).get_json()
+        test_1_blog = random.choice(test_1_blogs)["blogid"]
+        test_2_blog = random.choice(test_2_blogs)["blogid"]
 
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertIsInstance(data, dict)
-    #     self.assertTrue(len(data) == 5)
+        response_1 = self.client.get(
+            f"/blogs/{test_1_blog}", headers=self.headers["test1"])
+        data_1 = response_1.get_json()
 
-    # def test_blog_create(self):
-    #     response = self.client.post("/blogs/", data={
-    #         "title": "TestBlog123",
-    #         "date": "2020-11-11",
-    #         "location": "Melbourne, Australia",
-    #         "blog": "Lorem ipsum dolor sit amet..."
-    #     })
-    #     data = response.get_json()
+        self.assertEqual(response_1.status_code, 200)
+        self.assertIsInstance(data_1, dict)
+        self.assertTrue(len(data_1) == 6)
+        self.assertTrue(data_1["user"]["id"] == 1)
 
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertIsInstance(data, dict)
-    #     self.assertTrue(data["title"] == "TestBlog123")
-    #     self.assertTrue(len(data) == 5)
+        response_2 = self.client.get(
+            f"/blogs/{test_2_blog}", headers=self.headers["test2"])
+        data_2 = response_2.get_json()
 
-    # def test_blog_update(self):
-    #     response = self.client.put("/blogs/1", data={
-    #         "title": "UpdatedBlog123",
-    #         "location": "Sydney, Australia"
-    #     })
-    #     data = response.get_json()
+        self.assertEqual(response_2.status_code, 200)
+        self.assertIsInstance(data_2, dict)
+        self.assertTrue(len(data_2) == 6)
+        self.assertTrue(data_2["user"]["id"] == 2)
 
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertIsInstance(data, dict)
-    #     self.assertTrue(data["title"] == "UpdatedBlog123")
-    #     self.assertTrue(data["location"] == "Sydney, Australia")
+    def test_blog_create(self):
+        response = self.client.post(
+            "/blogs/", headers=self.headers["test3"], data={
+                "title": "TestBlog123",
+                "date": "2020-11-11",
+                "location": "Melbourne, Australia",
+                "blog": "Lorem ipsum dolor sit amet..."
+            })
+        data = response.get_json()
 
-    # def test_blog_delete(self):
-    #     self.client.delete("/blogs/1")
-    #     self.client.delete("/blogs/2")
-    #     response = self.client.get("/blogs/")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(data, dict)
+        self.assertTrue(data["title"] == "TestBlog123")
+        self.assertTrue(data["location"] == "Melbourne, Australia")
+        self.assertTrue(len(data) == 6)
+        self.assertTrue(data["user"]["id"] == 3)
 
-    #     data = response.get_json()
-    #     blogids = []
-    #     for entry in data:
-    #         blogids.append(entry["blogid"])
+    def test_blog_update(self):
+        import random
+        test_4_blogs = self.client.get(
+            "/blogs/", headers=self.headers["test4"]).get_json()
+        test_4_blog = random.choice(test_4_blogs)["blogid"]
 
-    #     self.assertIsInstance(data, list)
-    #     self.assertTrue(len(data) == 8)
-    #     self.assertNotIn([1, 2], blogids)
+        response = self.client.put(
+            f"/blogs/{test_4_blog}", headers=self.headers["test4"], data={
+                "title": "UpdatedBlog123",
+                "location": "Sydney, Australia"
+            })
+        data = response.get_json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(data, dict)
+        self.assertTrue(data["title"] == "UpdatedBlog123")
+        self.assertTrue(data["location"] == "Sydney, Australia")
+
+    def test_blog_delete(self):
+        import random
+        test_5_blogs = self.client.get(
+            "/blogs/", headers=self.headers["test5"]).get_json()
+        test_5_blogids = [blog["blogid"] for blog in test_5_blogs]
+        non_test_5_blogids = [
+            i for i in range(1, 31) if i not in test_5_blogids]
+        test_5_blogid = random.choice(test_5_blogids)
+
+        response_1 = self.client.delete(
+            f"/blogs/{test_5_blogid}", headers=self.headers["test5"])
+        data_1 = response_1.get_json()
+
+        self.assertEqual(response_1.status_code, 200)
+        self.assertEqual(data_1["blogid"], test_5_blogid)
+
+        response_2 = self.client.delete(
+            f"/blogs/{test_5_blogid}", headers=self.headers["test4"])
+        data_2 = response_2.get_json()
+
+        self.assertEqual(response_2.status_code, 400)
+        self.assertFalse(data_2)
+
+        response_3 = self.client.get("/blogs/", headers=self.headers["test5"])
+        data_3 = response_3.get_json()
+        remaining_blogids = [blog["blogid"] for blog in data_3]
+
+        self.assertTrue(test_5_blogid not in remaining_blogids)
+        self.assertTrue(test_5_blogid not in non_test_5_blogids)
