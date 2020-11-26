@@ -15,6 +15,10 @@ def blog_index():
     user = User.query.get(user_id)
 
     blogs = Blog.query.filter_by(userid=user.id)
+
+    if blogs.count() < 1:
+        return abort(400, description="No blog posts found")
+
     return jsonify(blogs_schema.dump(blogs))
 
 
@@ -22,7 +26,16 @@ def blog_index():
 @jwt_required
 def blog_post(id):
     # View single blog post
-    blog = Blog.query.get(id)
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    if not user:
+        return abort(401, description="Invalid user")
+
+    blog = Blog.query.filter_by(blogid=id, userid=user.id).first()
+    if not blog:
+        return abort(401, description="Unauthorized to view this blog post")
+
     return jsonify(blog_schema.dump(blog))
 
 
@@ -54,8 +67,18 @@ def blog_create():
 @jwt_required
 def blog_update(id):
     # Update blog post
-    blog = Blog.query.filter_by(blogid=id)
     blog_fields = blog_schema.load(request.form)
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    if not user:
+        return abort(401, description="Invalid user")
+    
+    blog = Blog.query.filter_by(blogid=id, userid=user.id)
+
+    if blog.count() != 1:
+        return abort(401, description="Unauthorised to update this blog")
+    
     blog.update(blog_fields)
     db.session.commit()
 
@@ -66,7 +89,17 @@ def blog_update(id):
 @jwt_required
 def blog_delete(id):
     # Delete blog post
-    blog = Blog.query.get(id)
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    if not user:
+        return abort(401, description="Invalid user")
+    
+    blog = Blog.query.filter_by(blogid=id, userid=user.id).first()
+
+    if not blog:
+        return abort(400, description="Unauthorized to delete blog")
+    
     db.session.delete(blog)
     db.session.commit()
 

@@ -29,7 +29,7 @@ def seed_db():
     faker = Faker()
     users = []
 
-    for i in range(5):
+    for i in range(1, 6):
         user = User()
         user.email = f"test{i}@test.com"
         user.password = bcrypt.generate_password_hash("123456").decode("utf-8")
