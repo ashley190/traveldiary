@@ -98,7 +98,7 @@ def blog_delete(id):
     blog = Blog.query.filter_by(blogid=id, userid=user.id).first()
 
     if not blog:
-        return abort(400, description="Unauthorized to delete blog")
+        return abort(400, description="Unauthorised to delete blog")
     
     db.session.delete(blog)
     db.session.commit()

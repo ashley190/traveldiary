@@ -52,8 +52,18 @@ def new_review():
 @jwt_required
 def review_update(id):
     # Update review
-    review = Review.query.filter_by(reviewid=id)
     review_fields = review_schema.load(request.form)
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    if not user:
+        return abort(401, description="Invalid user")
+
+    review = Review.query.filter_by(reviewid=id, userid=user.id)
+
+    if review.count() != 1:
+        return abort(401, description="Unauthorised to update this review")
+
     review.update(review_fields)
     db.session.commit()
 
@@ -64,7 +74,17 @@ def review_update(id):
 @jwt_required
 def delete_review(id):
     # Delete review
-    review = Review.query.get(id)
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    if not user:
+        return abort(401, description="Invalid user")
+
+    review = Review.query.filter_by(reviewid=id, userid=user.id).first()
+
+    if not review:
+        return abort(400, description="Unauthorised to delete review")
+
     db.session.delete(review)
     db.session.commit()
 
