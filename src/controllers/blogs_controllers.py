@@ -11,7 +11,10 @@ blogs = Blueprint('blogs', __name__, url_prefix="/blogs")
 @jwt_required
 def blog_index():
     # View all blog posts
-    blogs = Blog.query.all()
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    blogs = Blog.query.filter_by(userid=user.id)
     return jsonify(blogs_schema.dump(blogs))
 
 

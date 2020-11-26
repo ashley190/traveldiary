@@ -26,7 +26,6 @@ def seed_db():
     from faker import Faker
     import random
 
-
     faker = Faker()
     users = []
 
@@ -36,7 +35,7 @@ def seed_db():
         user.password = bcrypt.generate_password_hash("123456").decode("utf-8")
         db.session.add(user)
         users.append(user)
-    
+
     db.session.commit()
 
     for i in range(10):
