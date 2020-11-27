@@ -4,6 +4,7 @@ from main import db
 from schemas.BlogSchema import blog_schema, blogs_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import Blueprint, request, jsonify, abort
+
 blogs = Blueprint('blogs', __name__, url_prefix="/blogs")
 
 

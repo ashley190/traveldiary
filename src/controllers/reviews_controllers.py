@@ -4,13 +4,15 @@ from main import db
 from schemas.ReviewSchema import review_schema, reviews_schema
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import Blueprint, request, jsonify, abort
+from sqlalchemy.orm import joinedload
+
 reviews = Blueprint("reviews", __name__, url_prefix="/reviews")
 
 
 @reviews.route("/", methods=["GET"])
 def all_reviews():
     # View all reviews
-    reviews = Review.query.all()
+    reviews = Review.query.options(joinedload("user")).all()
     return jsonify(reviews_schema.dump(reviews))
 
 
