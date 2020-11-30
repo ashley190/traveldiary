@@ -13,4 +13,4 @@ class Review(db.Model):
     rating = db.Column(db.Integer)
     description = db.Column(db.String())
     likes = db.Column(db.Integer)
-    userid = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    userid = db.Column(db.Integer, db.ForeignKey("user.userid"), nullable=False)

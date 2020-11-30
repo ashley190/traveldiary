@@ -14,7 +14,7 @@ class BlogSchema(ma.SQLAlchemyAutoSchema):
     date = ma.Date()
     location = ma.String(validate=Length(min=1))
     blog = ma.String(validate=Length(min=1))
-    user = ma.Nested(UserSchema)    # doesn't work
+    user = ma.Nested(UserSchema)
 
     @validates("date")
     def not_future_date(*value):

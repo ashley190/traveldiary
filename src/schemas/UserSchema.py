@@ -14,3 +14,15 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
+
+class ProfileSchema(UserSchema):
+    email = ma.String()
+    password = ma.String()
+    name = ma.String(validate=Length(min=1))
+    age = ma.Integer()
+    location = ma.String()
+    interests = ma.String()
+    about_me=ma.String()
+
+profile_schema = ProfileSchema()
+profiles_schema = ProfileSchema(many=True)

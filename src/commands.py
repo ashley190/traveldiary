@@ -33,10 +33,16 @@ def seed_db():
         user = User()
         user.email = f"test{i}@test.com"
         user.password = bcrypt.generate_password_hash("123456").decode("utf-8")
+        user.name = faker.name_nonbinary()
+        user.age = random.randint(13, 105)
+        user.location = f"{faker.city()}, {faker.country()}"
+        user.interests = faker.text()
+        user.about_me = faker.text()
         db.session.add(user)
         users.append(user)
 
     db.session.commit()
+    print("User table seeded")
 
     for i in range(30):
         blog = Blog()
@@ -44,7 +50,7 @@ def seed_db():
         blog.date = faker.date_object()
         blog.location = f"{faker.city()}, {faker.country()}"
         blog.blog = faker.text()
-        blog.userid = random.choice(users).id
+        blog.userid = random.choice(users).userid
         db.session.add(blog)
 
     db.session.commit()
@@ -59,7 +65,7 @@ def seed_db():
         review.activity_type = faker.word()
         review.rating = faker.random_int(min=0, max=5)
         review.description = faker.text()
-        review.userid = random.choice(users).id
+        review.userid = random.choice(users).userid
         db.session.add(review)
 
     db.session.commit()
