@@ -1,7 +1,7 @@
 from models.User import User
 from schemas.UserSchema import user_schema, profile_schema
 from main import db, bcrypt
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity  # noqa: E501
 from datetime import timedelta
 from flask import Blueprint, request, jsonify, abort
 
@@ -44,16 +44,18 @@ def user_login():
 
     return jsonify({"token": access_token})
 
+
 @user.route("/", methods=["GET"])
 @jwt_required
 def view_profile():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
-    
+
     if not user:
         return abort(401, description="Invalid user")
 
     return jsonify(user_schema.dump(user))
+
 
 @user.route("/", methods=["PUT"])
 @jwt_required
@@ -64,8 +66,8 @@ def profile_update():
 
     if not user:
         return abort(401, description="Invalid user")
-    
+
     user.update(profile_fields)
     db.session.commit()
-    
+
     return jsonify(profile_schema.dump(user[0]))
