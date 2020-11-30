@@ -173,7 +173,9 @@ paths:
         name: "body"
         description: "Updated password"
         required: true
-        schema: "<path_to_object>"
+        schema: 
+          $ref: "<path_to_object>"
+          # password
       responses:
         "200":
           description: "Successful operation"
