@@ -61,7 +61,7 @@ def review_update(id):
     if not user:
         return abort(401, description="Invalid user")
 
-    review = Review.query.filter_by(reviewid=id, userid=user.id)
+    review = Review.query.filter_by(reviewid=id, userid=user.userid)
 
     if review.count() != 1:
         return abort(401, description="Unauthorised to update this review")
@@ -82,7 +82,7 @@ def delete_review(id):
     if not user:
         return abort(401, description="Invalid user")
 
-    review = Review.query.filter_by(reviewid=id, userid=user.id).first()
+    review = Review.query.filter_by(reviewid=id, userid=user.userid).first()
 
     if not review:
         return abort(400, description="Unauthorised to delete review")

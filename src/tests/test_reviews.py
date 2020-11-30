@@ -76,7 +76,7 @@ class TestBlogs(unittest.TestCase):
         all_reviews = self.client.get("/reviews/").get_json()
         test_1_reviewids = []
         for review in all_reviews:
-            if review["user"]["id"] == 1:
+            if review["user"]["userid"] == 1:
                 test_1_reviewids.append(review["reviewid"])
         non_test_1_reviewids = [
             i for i in range(1, 31) if i not in test_1_reviewids]
@@ -99,7 +99,7 @@ class TestBlogs(unittest.TestCase):
         self.assertTrue(data_1["activity_type"] == "hiking")
         self.assertTrue(data_1["date"] == "2020-11-15")
         self.assertTrue(data_1["title"] == "Updated review v2")
-        self.assertTrue(data_1["user"]["id"] == 1)
+        self.assertTrue(data_1["user"]["userid"] == 1)
 
         response_2 = self.client.put(
             f"/reviews/{non_test_1_reviewid}",
@@ -120,7 +120,7 @@ class TestBlogs(unittest.TestCase):
         all_reviews = self.client.get("/reviews/").get_json()
         test_4_reviewids = []
         for review in all_reviews:
-            if review["user"]["id"] == 4:
+            if review["user"]["userid"] == 4:
                 test_4_reviewids.append(review["reviewid"])
         non_test_4_reviewids = [
             i for i in range(1, 31) if i not in test_4_reviewids]

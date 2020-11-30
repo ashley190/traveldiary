@@ -62,81 +62,20 @@ paths:
           description: "successful operation"
         "400":
           description: "Invalid username/password supplied"
-  /user/logout:
+  /user/:
     get:
       tags:
       - "user"
-      summary: "Logs out current logged in user session"
-      operationId: "logoutUser"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters: []
-      responses:
-        default:
-          description: "successful operation"
-  /user/{username}/account:
-    put:
-      tags:
-      - "user"
-      summary: "Updates user password"
-      description: "This can only be done by the logged in user."
-      operationId: "updateUserPassword"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "username retrieved upon successful login"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Updated password"
-        required: true
-        schema: "<path_to_object>"
-        # password
-      responses:
-        "200":
-          description: "Successful operation"
-        "400":
-          description: "Unable to update profile"
-        "404":
-          description: "User not found"
-    delete:
-      tags:
-      - "user"
-      summary: "Delete user account"
-      description: "This can only be done by the logged in user."
-      operationId: "deleteUser"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The user that needs to be deleted"
-        required: true
-        type: "string"
-      responses:
-        "200":
-          description: "Successful operation"
-        "400":
-          description: "Invalid username supplied"
-        "404":
-          description: "User not found"
-  /user/{username}/profile:
-    get:
-      tags:
-      - "user"
-      summary: "Get user profile by user name"
+      summary: "Get user profile"
       description: ""
-      operationId: "getUserByName"
+      operationId: "getUserProfile"
       produces:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "username"
+      - name: "userid"
         in: "path"
-        description: "Fetched from username upon successful login."
+        description: "Fetched upon successful login."
         required: true
         type: "string"
       responses:
@@ -158,11 +97,6 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "username"
-        in: "path"
-        description: "username retrieved upon successful login"
-        required: true
-        type: "string"
       - name: "name"
         in: "formData"
         description: "Profile name"
@@ -183,7 +117,7 @@ paths:
         description: "User's interests"
         required: false
         type: "string"
-      - name: "bio"
+      - name: "about_me"
         in: "formData"
         description: "A little bit about the user"
         required: false
@@ -193,6 +127,53 @@ paths:
         description: "file to upload"
         required: false
         type: "file"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Unable to update profile"
+        "404":
+          description: "User not found"
+    delete:
+      tags:
+      - "user"
+      summary: "Delete user account"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteUser"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "The user that needs to be deleted"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Successful operation"
+        "400":
+          description: "Invalid username supplied"
+        "404":
+          description: "User not found"
+  /user/{username}/change_password:
+    put:
+      tags:
+      - "user"
+      summary: "Updates user password"
+      description: "This can only be done by the logged in user."
+      operationId: "updateUserPassword"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "userid retrieved upon successful login"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated password"
+        required: true
+        schema: "<path_to_object>"
       responses:
         "200":
           description: "Successful operation"

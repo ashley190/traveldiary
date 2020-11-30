@@ -15,6 +15,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
 
+
 class ProfileSchema(UserSchema):
     email = ma.String()
     password = ma.String()
@@ -22,7 +23,8 @@ class ProfileSchema(UserSchema):
     age = ma.Integer()
     location = ma.String()
     interests = ma.String()
-    about_me=ma.String()
+    about_me = ma.String()
+
 
 profile_schema = ProfileSchema()
 profiles_schema = ProfileSchema(many=True)

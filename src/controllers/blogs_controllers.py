@@ -15,7 +15,7 @@ def blog_index():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
 
-    blogs = Blog.query.filter_by(userid=user.id)
+    blogs = Blog.query.filter_by(userid=user.userid)
 
     if blogs.count() < 1:
         return abort(400, description="No blog posts found")
@@ -33,7 +33,7 @@ def blog_post(id):
     if not user:
         return abort(401, description="Invalid user")
 
-    blog = Blog.query.filter_by(blogid=id, userid=user.id).first()
+    blog = Blog.query.filter_by(blogid=id, userid=user.userid).first()
     if not blog:
         return abort(401, description="Unauthorized to view this blog post")
 
@@ -75,7 +75,7 @@ def blog_update(id):
     if not user:
         return abort(401, description="Invalid user")
 
-    blog = Blog.query.filter_by(blogid=id, userid=user.id)
+    blog = Blog.query.filter_by(blogid=id, userid=user.userid)
 
     if blog.count() != 1:
         return abort(401, description="Unauthorised to update this blog")
@@ -96,7 +96,7 @@ def blog_delete(id):
     if not user:
         return abort(401, description="Invalid user")
 
-    blog = Blog.query.filter_by(blogid=id, userid=user.id).first()
+    blog = Blog.query.filter_by(blogid=id, userid=user.userid).first()
 
     if not blog:
         return abort(400, description="Unauthorised to delete blog")

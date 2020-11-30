@@ -58,7 +58,7 @@ class TestBlogs(unittest.TestCase):
         self.assertEqual(response_1.status_code, 200)
         self.assertIsInstance(data_1, dict)
         self.assertTrue(len(data_1) == 6)
-        self.assertTrue(data_1["user"]["id"] == 1)
+        self.assertTrue(data_1["user"]["userid"] == 1)
 
         response_2 = self.client.get(
             f"/blogs/{test_2_blog}", headers=self.headers["test2"])
@@ -67,7 +67,7 @@ class TestBlogs(unittest.TestCase):
         self.assertEqual(response_2.status_code, 200)
         self.assertIsInstance(data_2, dict)
         self.assertTrue(len(data_2) == 6)
-        self.assertTrue(data_2["user"]["id"] == 2)
+        self.assertTrue(data_2["user"]["userid"] == 2)
 
     def test_blog_create(self):
         response = self.client.post(
@@ -84,7 +84,7 @@ class TestBlogs(unittest.TestCase):
         self.assertTrue(data["title"] == "TestBlog123")
         self.assertTrue(data["location"] == "Melbourne, Australia")
         self.assertTrue(len(data) == 6)
-        self.assertTrue(data["user"]["id"] == 3)
+        self.assertTrue(data["user"]["userid"] == 3)
 
     def test_blog_update(self):
         import random
