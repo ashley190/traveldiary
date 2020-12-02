@@ -14,8 +14,12 @@ class User(db.Model):
     location = db.Column(db.String())
     interests = db.Column(db.String())
     about_me = db.Column(db.String())
-    blogs = db.relationship(Blog, backref="user", lazy="dynamic")
-    reviews = db.relationship(Review, backref="user", lazy="dynamic")
+    blogs = db.relationship(
+        Blog, backref="user", lazy="dynamic",
+        cascade="all, delete, delete-orphan")
+    reviews = db.relationship(
+        Review, backref="user", lazy="dynamic",
+        cascade="all, delete, delete-orphan")
 
     def __repr__(self):
         return f"<User {self.email}"

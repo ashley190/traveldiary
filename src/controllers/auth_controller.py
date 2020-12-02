@@ -71,3 +71,18 @@ def profile_update():
     db.session.commit()
 
     return jsonify(profile_schema.dump(user[0]))
+
+
+@user.route("/", methods=["DELETE"])
+@jwt_required
+def delete_user():
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(userid=user_id).first()
+
+    if not user:
+        return abort(401, description="Invalid user")
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify(user_schema.dump(user))
