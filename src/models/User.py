@@ -1,6 +1,7 @@
 from main import db
 from models.Blog import Blog
 from models.Review import Review
+from models.Image import Images
 
 
 class User(db.Model):
@@ -19,6 +20,9 @@ class User(db.Model):
         cascade="all, delete, delete-orphan")
     reviews = db.relationship(
         Review, backref="user", lazy="dynamic",
+        cascade="all, delete, delete-orphan")
+    image = db.relationship(
+        Images, backref="user", uselist=False,
         cascade="all, delete, delete-orphan")
 
     def __repr__(self):
